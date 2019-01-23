@@ -63,7 +63,7 @@ server.post('/api/projects/', async(req, res) => {
         if(!name || !description){
             res.status(404).json(`{error: 'Please enter name and description'}`)
         } else if (name.length > 128) {
-            res.status(404).json(`{error: 'Sorry that name is tooooooo looooonnnng'}`)
+            res.status(404).json(`{error: 'Sorry that name is too long'}`)
         } else {
             const data = await projects.insert({name, description})
             res.status(200).json(data)
@@ -82,7 +82,7 @@ server.put('/api/projects/:id', async(req, res) => {
         if(!name || !description) {
             res.status(404).json(`{error: 'Sorry, but the name and description are required'}`)
         } else if(name.length > 128) {
-            res.status(404).json(`{error: 'Sorry that name is tooooooo looooonnnng'}`)
+            res.status(404).json(`{error: 'Sorry that name is too long'}`)
         } else {
             res.status(200).json(results)
         }
