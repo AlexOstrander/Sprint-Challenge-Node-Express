@@ -25,14 +25,19 @@ In this challenge, create a web API around the following resources: `Projects` a
 Demonstrate your understanding of this Sprint's concepts by answering the following free-form questions. Edit this document to include your answers after each question. Make sure to leave a blank line above and below your answer so it is clear and easy to read by your project manager.
 
 - [ ] Mention two parts of Express that you learned about this week.
+      express.Router() && async await
 
 - [ ] Describe Middleware?
+      Middleware is software that acts as a connector between different services like a database and applications
 
 - [ ] Describe a Resource?
+      A resource can describe different sources of information, like information about user names stored in a database that would be pulled upon a request to an API.
 
 - [ ] What can the API return to help clients know if a request was successful?
+      They can return status codes like 200 and 201 to indicate successful request.
 
 - [ ] How can we partition our application into sub-applications?
+      We can use routers, which you can import into the main server/app
 
 ## Project Setup
 
@@ -44,7 +49,7 @@ Follow these steps to set up and work on your project:
 - [ ] Create a new Branch on the clone: git checkout -b `<firstName-lastName>`.
 - [ ] Implement the project on this Branch, committing changes regularly.
 - [ ] Push commits: git push origin `<firstName-lastName>`.
- 
+
 Follow these steps for completing your project.
 
 - [ ] Submit a Pull-Request to merge <firstName-lastName> Branch into master (student's  Repo). **Please don't merge your own pull request.**
