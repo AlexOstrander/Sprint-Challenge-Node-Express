@@ -98,7 +98,6 @@ server.delete('/api/projects/:id', async(req, res) => {
     try{
        for (i = 0; i < test.length; i++) {
          if (id === project_id) {
-           console,log(test[i])
            const actionsRemove = await actions.remove(test[i])
          }
        }
