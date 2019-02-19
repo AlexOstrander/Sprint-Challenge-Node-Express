@@ -43,7 +43,7 @@ server.get('/api/projects/:id', async(req, res) => {
     }
 });
 
-server.get('/api/projects/actions/:projectId', async(req, res) => {
+server.get('/api/projects/:projectId/actions/', async(req, res) => {
     const { projectId } = req.params;
     try{
         const projectActions = await projects.getProjectActions(projectId)
@@ -78,13 +78,13 @@ server.put('/api/projects/:id', async(req, res) => {
     const data = req.body;
     const { name, description } = req.body;
     try {
-        const results = await projects.update(id, data)
         if(!name || !description) {
             res.status(404).json(`{error: 'Sorry, but the name and description are required'}`)
         } else if(name.length > 128) {
             res.status(404).json(`{error: 'Sorry that name is too long'}`)
         } else {
             res.status(200).json(results)
+            const results = await projects.update(id, data)
         }
     } catch(err) {
         res.status(500).json(`{error: 'Sorry something went wrong'}`)
@@ -93,6 +93,7 @@ server.put('/api/projects/:id', async(req, res) => {
 
 server.delete('/api/projects/:id', async(req, res) => {
     const { id } = req.params;
+<<<<<<< HEAD
     const test = actions.get()
     console.log(test);
     try{
@@ -105,6 +106,13 @@ server.delete('/api/projects/:id', async(req, res) => {
         const user = await projects.remove(req.params.id)
         if(user){
             res.json(user)
+=======
+    try{
+        const projectActions = await projects.getProjectActions(id)
+        const user = await projects.remove(id, projectActions)
+        if(user){
+            res.status(201).json(user)
+>>>>>>> f20bf38438d076f09350ca4f202a149dcee2093f
         } else {
             res.status(404).json(`{error: 'Project with that id not found'}`)
         }
@@ -147,7 +155,7 @@ server.post('/api/actions/', async(req, res) => {
             res.status(404).json(`{error: 'Description too long'}`)
         } else {
             const data = await actions.insert({project_id, description, notes})
-            res.status(200).json(data)
+            res.json(data)
         }
     } catch(err) {
         res.status(500).json(`{error: 'Information not found'}`)
@@ -156,15 +164,16 @@ server.post('/api/actions/', async(req, res) => {
 
 server.put('/api/actions/:id', async(req, res) => {
     const { id } = req.params;
-    const data = req.body;
     const { project_id, description } = req.body;
+    const data = req.body;
     try {
-        const update = await actions.update(id, data)
-        if(!project_id || !description) {
-            res.status(404).json(`{error: 'Please add ID and description'}`)
+        const checkID = await projects.get(project_id)
+        if(project_id !== checkID || description == false) {
+            res.status(400).json(`{error: 'Please add ID and description'}`)
         } else if(description.length > 128) {
             res.status(404).json(`{error: 'Description too long'}`)
         } else {
+            const update = await actions.update(id, data)
             res.status(200).json(update)
         }
     } catch(err) {
@@ -176,9 +185,9 @@ server.delete('/api/actions/:id', async(req, res) => {
     const { id } = req.params;
     actions.get(id)
     try{
-        const user = await actions.remove(req.params.id)
+        const user = await actions.remove(id)
         if(user){
-            res.status(204).json(user)
+            res.status(201).json(user)
         } else {
             res.status(404).json(`{error: 'id not found'}`)
         }
