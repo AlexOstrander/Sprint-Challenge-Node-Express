@@ -93,7 +93,6 @@ server.put('/api/projects/:id', async(req, res) => {
 
 server.delete('/api/projects/:id', async(req, res) => {
     const { id } = req.params;
-<<<<<<< HEAD
     const test = actions.get()
     console.log(test);
     try{
@@ -106,13 +105,6 @@ server.delete('/api/projects/:id', async(req, res) => {
         const user = await projects.remove(req.params.id)
         if(user){
             res.json(user)
-=======
-    try{
-        const projectActions = await projects.getProjectActions(id)
-        const user = await projects.remove(id, projectActions)
-        if(user){
-            res.status(201).json(user)
->>>>>>> f20bf38438d076f09350ca4f202a149dcee2093f
         } else {
             res.status(404).json(`{error: 'Project with that id not found'}`)
         }
