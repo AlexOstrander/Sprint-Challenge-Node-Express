@@ -1,7 +1,7 @@
 //Express server
 const express = require('express');
 const server = express();
-const PORT = 8534
+const PORT = 8537
 //Middleware extension
 const helmet = require('helmet');
 const morgan = require('morgan');
@@ -93,11 +93,18 @@ server.put('/api/projects/:id', async(req, res) => {
 
 server.delete('/api/projects/:id', async(req, res) => {
     const { id } = req.params;
-    projects.get(id)
+    const test = actions.get()
+    console.log(test);
     try{
+       for (i = 0; i < test.length; i++) {
+         if (id === project_id) {
+           console,log(test[i])
+           const actionsRemove = await actions.remove(test[i])
+         }
+       }
         const user = await projects.remove(req.params.id)
         if(user){
-            res.status(204).json(user)
+            res.json(user)
         } else {
             res.status(404).json(`{error: 'Project with that id not found'}`)
         }
@@ -182,4 +189,3 @@ server.delete('/api/actions/:id', async(req, res) => {
 
 
 server.listen(PORT, () => console.log(`server running on port ${PORT}`))
-
