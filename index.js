@@ -91,26 +91,31 @@ server.put('/api/projects/:id', async(req, res) => {
     }
 });
 
-server.delete('/api/projects/:id', async(req, res) => {
-    const { id } = req.params;
-    const test = actions.get()
-    console.log(test);
-    try{
-       for (i = 0; i < test.length; i++) {
-         if (id === project_id) {
-           const actionsRemove = await actions.remove(test[i])
-         }
-       }
-        const user = await projects.remove(req.params.id)
-        if(user){
-            res.json(user)
+server.delete("/api/projects/:id", (req, res) => {
+    const { id } = req.params
+    projects
+      .remove(id)
+      .then(count => {
+        if (count) {
+          projects.getProjectActions(id).then(response => {
+            response.map(action => {
+              actions.remove(action.id).then(() => {
+              })
+            })
+            res.json({ message: "This project successfully deleted." });
+          })
         } else {
-            res.status(404).json(`{error: 'Project with that id not found'}`)
+          res.status(404).json({
+            message: "The project with the specified ID does not exist."
+          })
         }
-    } catch(err) {
-        res.status(500).json(`{error: 'Sorry something went wrong'}`)
-    }
-});
+      })
+      .catch(() => {
+        res
+          .status(500)
+          .json({ error: "The project could not be removed from the DB." })
+      })
+  });
 
 //Actions
 
